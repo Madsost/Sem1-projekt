@@ -2,7 +2,7 @@ import java.util.ArrayList;
 // http://ptolemy.eecs.berkeley.edu/eecs20/week12/implementation.html
 // Hentet herfra. Det skal nok skrives så det ikke ligner plagiat. 
 // Koefficienterne er udregnet af http://t-filter.engineerjs.com/
-// Der er også et 
+// Der er også et et eller andet
 
 public class FIR {
 	private int length;
