@@ -6,26 +6,26 @@ import jssc.SerialPortList;
 /**
  * Klasse til kommunikation med Arduinoen og derigennem sensoren.
  * <p>
- * Indhenter målinger fra en serielt tilsluttet Arduino, der måler hvert 5.
+ * Indhenter mï¿½linger fra en serielt tilsluttet Arduino, der mï¿½ler hvert 5.
  * ms.
  * <p>
- * Indeholder en metode til at hente målinger, til at rense den første måling og
- * en opsætningsmetode. Returnerer en liste med sample_size størrelse med
- * målinger.
+ * Indeholder en metode til at hente mï¿½linger, til at rense den fï¿½rste mï¿½ling og
+ * en opsï¿½tningsmetode. Returnerer en liste med sample_size stï¿½rrelse med
+ * mï¿½linger.
  * @author Gruppe 6. 
  */
 
 public class Sensor {
 
 	private SerialPort serialPort;
-	private ArrayList<String> målinger;
+	private ArrayList<String> mÃ¥linger;
 	private String buffer = "";
 	private boolean test = false;
 
 	/**
-	 * opsætter den serielle port og melder at data terminalen er klar til at
+	 * opsï¿½tter den serielle port og melder at data terminalen er klar til at
 	 * modtage data.<p>
-	 * Anvender JSSC biblioteket. Kræver at der kun er tilsluttet én seriel
+	 * Anvender JSSC biblioteket. Krï¿½ver at der kun er tilsluttet ï¿½n seriel
 	 *  forbindelse til programmet, da det antages at der kun er en port i brug.<p>
 	 * Returnerer intet.
 	 */
@@ -47,46 +47,46 @@ public class Sensor {
 	}
 
 	/**
-	 * Kalder mål() med parameteren og returnerer en liste med det antal målinger fra Arduinoen som parameteren bestemmer.
+	 * Kalder mï¿½l() med parameteren og returnerer en liste med det antal mï¿½linger fra Arduinoen som parameteren bestemmer.
 	 *  
-	 * @param sampleSize det ønskede antal målinger, som heltal.
-	 * @return målinger: en ArrayList af strenge, hvor hver plads indeholder en måling.
+	 * @param sampleSize det ï¿½nskede antal mï¿½linger, som heltal.
+	 * @return mï¿½linger: en ArrayList af strenge, hvor hver plads indeholder en mï¿½ling.
 	 */
 	public ArrayList<String> hentMaalinger(int sampleSize) {
 		maal(sampleSize);
-		return målinger;
+		return mÃ¥linger;
 	}
 
 	/**
-	 * Ansvarlig for hentning af målinger. 
-	 * Denne metode modtager en heltalsparameter, som bestemmer antallet af målinger der skal hentes.
-	 * Metoden består af en løkke, som henter værdier fra den serielle port indtil parameter-værdien er nået.
+	 * Ansvarlig for hentning af mï¿½linger. 
+	 * Denne metode modtager en heltalsparameter, som bestemmer antallet af mï¿½linger der skal hentes.
+	 * Metoden bestï¿½r af en lï¿½kke, som henter vï¿½rdier fra den serielle port indtil parameter-vï¿½rdien er nï¿½et.
 	 * Hvis <code>InputBuffer</code> er tom, ventes der i 75 ms.
 	 * <p> 
-	 * Returnerer intet, men gemmer til listen <code>målinger</code>, som kan tilgås med <code>hentMålinger</code>
+	 * Returnerer intet, men gemmer til listen <code>mï¿½linger</code>, som kan tilgï¿½s med <code>hentMï¿½linger</code>
 	 * 
-	 * @param sampleSize det ønskede antal målinger, som heltal.
+	 * @param sampleSize det ï¿½nskede antal mï¿½linger, som heltal.
 	 */
 	public void maal(int sampleSize) {
 		int point = 0;
-		// instantierer listen - således gemmes kun sample_size for hvert kald
-		målinger = new ArrayList<>(sampleSize);
+		// instantierer listen - sï¿½ledes gemmes kun sample_size for hvert kald
+		mÃ¥linger = new ArrayList<>(sampleSize);
 		do {
 			if (test)
-				System.out.println("Mål!");
+				System.out.println("Mï¿½l!");
 			try {
-				// hvis der er målinger på vej
+				// hvis der er mï¿½linger pï¿½ vej
 				if (serialPort.getInputBufferBytesCount() > 0) {
 					buffer += serialPort.readString();
 					if (test)
 						System.out.println("buffer: " + buffer);
 					int pos = -1;
 					while ((pos = buffer.indexOf("!")) > -1) {		/*1B*/
-						målinger.add(buffer.substring(0, pos));
+						mÃ¥linger.add(buffer.substring(0, pos));
 						buffer = buffer.substring(pos + 1);
 					}
 				}
-				// Venter på at input-bufferen bliver fyldt igen
+				// Venter pï¿½ at input-bufferen bliver fyldt igen
 				else
 					try {
 						Thread.sleep(75);							/*1C*/
@@ -96,27 +96,27 @@ public class Sensor {
 			} catch (SerialPortException e1) {
 				e1.printStackTrace();
 			}
-			// Udskriver et punktum for hvert 200 måling (ca. hvert sekund)
-			if (målinger.size() - point >= 200) {
+			// Udskriver et punktum for hvert 200 mï¿½ling (ca. hvert sekund)
+			if (mÃ¥linger.size() - point >= 200) {
 					System.out.print(".");
-					point = målinger.size();
+					point = mÃ¥linger.size();
 				}
 			if (test) {
-				System.out.println(målinger.size());
+				System.out.println(mÃ¥linger.size());
 			}
 			
-		// størrelsen kan godt være større end sampleSize!
-		} while (målinger.size() <= sampleSize);
+		// stï¿½rrelsen kan godt vï¿½re stï¿½rre end sampleSize!
+		} while (mÃ¥linger.size() <= sampleSize);
 		System.out.println();
 	}
 
 	/** 
-	 * Rydder den første måling, da de første målinger typisk er fejlagtige. <p>
-	 * De første målinger i <code>InputBuffer</code> aflæses, opdeles i enkelte målinger og slettes.
+	 * Rydder den fÃ¸rste mÃ¥ling, da de fÃ¸rste mÃ¥linger typisk er fejlagtige. <p>
+	 * De fÃ¸rste mÃ¸linger i <code>InputBuffer</code> aflÃ¦ses, opdeles i enkelte mÃ¥linger og slettes.
 	 */
 	public void rens() {
 		try {
-			// hvis der er målinger på vej
+			// hvis der er mÃ¥linger pÃ¥ vej
 			if (serialPort.getInputBufferBytesCount() > 0) {
 				buffer += serialPort.readString();
 				int pos = -1;

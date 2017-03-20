@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 /**
- * Simulering af en pulsmåler
+ * Simulering af en pulsmï¿½ler
  * <p>
- * Anvender en sinus og cosinus-funktion til at simulere en måling
+ * Anvender en sinus og cosinus-funktion til at simulere en mï¿½ling
  * 
  * @author Gruppe 6.
  */
@@ -12,15 +12,15 @@ public class TestSensor extends Sensor {
 
 	private boolean test = false;
 	private double count = 2;
-	private ArrayList<String> målinger;
+	private ArrayList<String> mÃ¥linger;
 	private double hastighed = 1;
 
 	/**
 	 *  Pulsfunktion - indeholder den funktion, som simulerer en puls.<p>
 	 *  Modtager et tal, som bruges som variablen i funktionen.
 	 *  
-	 * @param x 	en x-værdi. Det er denne parameter, som skal inkementeres
-	 * @return 		y-værdien for parameteren.
+	 * @param x 	en x-vï¿½rdi. Det er denne parameter, som skal inkementeres
+	 * @return 		y-vï¿½rdien for parameteren.
 	 */
 	public double pulsfunktion(double x) {
 		double funktion = -1 * Math.sin(hastighed*(8 * x)) + 1.5 * Math.cos(hastighed*(4 * x)) + 2;
@@ -28,7 +28,7 @@ public class TestSensor extends Sensor {
 	}
 	
 	/**
-	 * Sætter hastigheden på den simulerede puls. Hastighed er sat til 1.0 fra start.
+	 * Sï¿½tter hastigheden pï¿½ den simulerede puls. Hastighed er sat til 1.0 fra start.
 	 * @param a
 	 */
 	public void saetHastighed(double a){
@@ -40,19 +40,19 @@ public class TestSensor extends Sensor {
 	 */
 	@Override
 	public ArrayList<String> hentMaalinger(int sample_size) {
-		målinger = new ArrayList<>();
+		mÃ¥linger = new ArrayList<>();
 		int point = 0;
 		for (int i = 0; i < sample_size; i++) {
 			double resultat = pulsfunktion(count);
 			if (test)
 				System.out.println(resultat);
-			// tæller 1/10 op for hvert kald
+			// tï¿½ller 1/10 op for hvert kald
 			count += 0.01;
 			String temp = "" + resultat;
-			målinger.add(temp);
-			if (målinger.size() - point >= 200) {
+			mÃ¥linger.add(temp);
+			if (mÃ¥linger.size() - point >= 200) {
 				System.out.print(".");
-				point = (målinger.size() / 200) * 200;
+				point = (mÃ¥linger.size() / 200) * 200;
 			}
 			try {
 				Thread.sleep(5);
@@ -62,6 +62,6 @@ public class TestSensor extends Sensor {
 		}
 		if (test)
 			System.out.println(count);
-		return målinger;
+		return mÃ¥linger;
 	}
 }

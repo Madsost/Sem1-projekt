@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 /**
- * Klasse som står for pulsberegningen. Derudover implementerer klassen et FIR filter.
+ * Klasse som stï¿½r for pulsberegningen. Derudover implementerer klassen et FIR filter.
  * <p>
- * Den primære metode er <code>beregnPulsFIR</code>, som returnerer et gennemsnit af de seneste 3 målinger.
+ * Den primï¿½re metode er <code>beregnPulsFIR</code>, som returnerer et gennemsnit af de seneste 3 mï¿½linger.
  * @author Gruppe 6
  *
  */
@@ -12,7 +12,7 @@ public class Pulsberegner {
 	private int sampleSize, sampleTime, length, count;
 	private double[] delayLine, impulseResponse;
 	private double skalar;
-	private ArrayList<Double> pulsmålinger = new ArrayList<>();
+	private ArrayList<Double> pulsmÃ¥linger = new ArrayList<>();
 	private double[] inddata;
 	
 	// Koefficienterne er fundet vha. http://t-filter.engineerjs.com/
@@ -34,10 +34,10 @@ public class Pulsberegner {
 			-0.002338377604830948, -0.0016966240792510331, -0.001967541047829245};
 
 	/**
-	 * Hovedkonstruktør.<p>
-	 * Modtager en sampletid og en samplestørrelse, som objektet skal arbejde videre med.
-	 * @param sampleSize Antallet af samples der ses på af gangen
-	 * @param sampleTime Afstanden mellem hver måling
+	 * HovedkonstruktÃ¸r.<p>
+	 * Modtager en sampletid og en samplestÃ¸rrelse, som objektet skal arbejde videre med.
+	 * @param sampleSize Antallet af samples der ses pï¿½ af gangen
+	 * @param sampleTime Afstanden mellem hver mÃ¥ling
 	 */
 	public Pulsberegner(int sampleSize, int sampleTime) {
 		this.sampleSize = sampleSize;
@@ -45,15 +45,15 @@ public class Pulsberegner {
 	}
 	
 	/**
-	 * Denne metode modtager en input-sample, kører den igennem et FIR-filter og returnerer den filtrerede sample.
+	 * Denne metode modtager en input-sample, kï¿½rer den igennem et FIR-filter og returnerer den filtrerede sample.
 	 * <p>
 	 * Ved 64 koefficienter forskyder denne metode signalet 64 pladser.
 	 * <p> 
 	 * Fra http://ptolemy.eecs.berkeley.edu/eecs20/week12/implementation.html
 	 * 
-	 * @param inputSample Den måling der skal filtreres
+	 * @param inputSample Den mï¿½ling der skal filtreres
 	 * @author Berkeley, ECCS
-	 * @return den filtrerede måling.
+	 * @return den filtrerede mï¿½ling.
 	 */
 	public double getOutputSample(double inputSample) {
 		delayLine[count] = inputSample;
@@ -70,7 +70,7 @@ public class Pulsberegner {
 	}
 
 	/**
-	 * Returnerer summen af koefficienterne. Bruges til at skalere målingerne tilbage til det forrige system. 
+	 * Returnerer summen af koefficienterne. Bruges til at skalere mï¿½lingerne tilbage til det forrige system. 
 	 * 
 	 * @param koefficienter Et array af simpel type. 
 	 * @return summen af koefficienterne, der anvendes af FIR filteret. 
@@ -84,9 +84,9 @@ public class Pulsberegner {
 	}
 	
 	/**
-	 * Metode, der opsætter FIR-filteret.
+	 * Metode, der opsï¿½tter FIR-filteret.
 	 * 
-	 * Frit efter konstruktør i Berkeleys implementering
+	 * Frit efter konstruktï¿½r i Berkeleys implementering
 	 * @author Berkeley, ECCS
 	 */
 	public void opsaetFIR(){
@@ -96,52 +96,52 @@ public class Pulsberegner {
 		skalar = skalering(coefs);
 	}
 
-	/** gennemløber listen og udregner middelværdien af målingerne */
+	/** gennemlï¿½ber listen og udregner middelvï¿½rdien af mï¿½lingerne */
 	public void beregnMiddelVal() {
 		double sum = 0;
 		for (double tal : inddata) {	/*2A*/
 			sum = sum + tal;
 		}
 		double resultat = sum / sampleSize;
-		// Til afprøvning:
+		// Til afprï¿½vning:
 		// System.out.println(resultat);
 		middelVal = resultat;
 	}
 
 	/**
-	 * Metode, der beregner pulsen. Den modtager et datasæt fra hovedprogrammet, centrerer målingerne omkring middelværdien, sender sættet igennnem et filter
+	 * Metode, der beregner pulsen. Den modtager et datasï¿½t fra hovedprogrammet, centrerer mï¿½lingerne omkring middelvï¿½rdien, sender sï¿½ttet igennnem et filter
 	 * og udregner pulsen herudfra.
 	 * <p>
-	 * Pulsen gemmes i en liste og metoden returnerer gennemsnittet af de seneste tre målinger.
+	 * Pulsen gemmes i en liste og metoden returnerer gennemsnittet af de seneste tre mï¿½linger.
 	 * 
-	 * @param målinger (ArrayList af flydende heltal)
-	 * @return middelværdien af de tre seneste pulsberegninger
+	 * @param mï¿½linger (ArrayList af flydende heltal)
+	 * @return middelvï¿½rdien af de tre seneste pulsberegninger
 	 */
-	public double beregnPulsFIR(ArrayList<Double> målinger) {
+	public double beregnPulsFIR(ArrayList<Double> mÃ¥linger) {
 
-		inddata = new double[målinger.size()];
+		inddata = new double[mÃ¥linger.size()];
 
 		// Konverterer til array af simpel type
-		for (int i = 0; i < målinger.size(); i++) {	/*1A*/
-			inddata[i] = målinger.get(i);
+		for (int i = 0; i < mÃ¥linger.size(); i++) {	/*1A*/
+			inddata[i] = mÃ¥linger.get(i);
 		}
 		
 		opsaetFIR();
 
 		beregnMiddelVal();
 
-		// Centrerer målingerne omkring middelværdien
+		// Centrerer mï¿½lingerne omkring middelvï¿½rdien
 		for (double tal : inddata) {				/*1B*/
 			tal = tal - middelVal;
 		}
 
-		// Filtrerer målingerne 
+		// Filtrerer mï¿½lingerne 
 		for (int j = 0; j < inddata.length; j++) {	/*1C*/
 			inddata[j] = getOutputSample(inddata[j]);
 			inddata[j] = inddata[j] / skalar;
 		}
 
-		// Til afprøvning: 
+		// Til afprï¿½vning: 
 		/*for (double tal : inddata) {
 			System.out.println(tal);
 		}*/
@@ -160,13 +160,13 @@ public class Pulsberegner {
 			scores[j - 1] = score;
 		}
 		
-		// til afprøvning
+		// til afprï¿½vning
 		/*for(double tal : scores){
 			System.out.println(tal);
 		}*/
 		
 		
-		// Finder laveste værdi for bølgedale
+		// Finder laveste vï¿½rdi for bï¿½lgedale
 		boolean ned = false;
 		boolean bund = false;
 		double min = Double.MAX_VALUE;
@@ -181,7 +181,7 @@ public class Pulsberegner {
 			}
 		}
 		
-		// Finder første forskydning med lav nok score
+		// Finder fï¿½rste forskydning med lav nok score
 		int hit = 0;
 		for(int i = 60; i<scores.length-1;i++){		/*1F*/
 			ned = (scores[i] - scores[i-1] < 0);
@@ -196,7 +196,7 @@ public class Pulsberegner {
 			}
 		}
 		
-		// Til afprøvning: Udskriv scores 
+		// Til afprï¿½vning: Udskriv scores 
 		/*
 		 * for (int i = 0; i < scores.length; i++) { System.out.println((i + 1)
 		 * + ": " + scores[i]); }
@@ -205,24 +205,24 @@ public class Pulsberegner {
 		try{
 		double pulsgaet = 60000 / (hit * sampleTime);
 		System.out.println("Bedste bud: " + pulsgaet);
-		pulsmålinger.add(pulsgaet);
+		pulsmÃ¥linger.add(pulsgaet);
 		} catch (ArithmeticException e1) {
 			System.out.println("Divideret med 0");
 			System.out.println("Bedste bud: Intet bud");
 		}
 
-		// Sikrer at vi kun gemmer de forrige 3 målinger. 
-		while (pulsmålinger.size() >= 3) {			/*1G*/
-			pulsmålinger.remove(0);
+		// Sikrer at vi kun gemmer de forrige 3 mï¿½linger. 
+		while (pulsmÃ¥linger.size() >= 3) {			/*1G*/
+			pulsmÃ¥linger.remove(0);
 		}
 
-		// Finder gennemsnittet af denne måling og de forrige 2. 
-		double jævnetPuls = 0;
-		for (double puls : pulsmålinger) {			/*1H*/
-			jævnetPuls += puls;
+		// Finder gennemsnittet af denne mï¿½ling og de forrige 2. 
+		double jÃ¦vnetPuls = 0;
+		for (double puls : pulsmÃ¥linger) {			/*1H*/
+			jÃ¦vnetPuls += puls;
 		}
 
-		jævnetPuls = jævnetPuls / pulsmålinger.size();
-		return jævnetPuls;
+		jÃ¦vnetPuls = jÃ¦vnetPuls / pulsmÃ¥linger.size();
+		return jÃ¦vnetPuls;
 	}
 }
